@@ -1,0 +1,21 @@
+*.orig
+
+# Intellij
+.idea/
+*.iml
+*.iws
+
+# Dependency directories
+**/node_modules
+*.tgz
+
+# Optional npm cache directory
+.npm
+npm-debug.log*
+
+# Webpack generated
+**/lib/*
+**/dist/*
+
+*.log
+
