@@ -8,10 +8,10 @@ Dates should be in a local dateTimeFormat ('YYYY-MM-DDTHH:MM')
 
 Useage: 
 
-`<DatePickerLite
+```<DatePickerLite
    startDate={ startDate }
    endDate={ endDate }
    onDatesChange={ function({ startDate, endDate }) }
    navPrev={ <ArrowLeft/> }
    navNext={ <ArrowRight/> }
-/>`
+/>```
