@@ -2,7 +2,7 @@ const path = require('path');
 const webpack = require('webpack')
 
 module.exports = {
-    entry: [path.join(__dirname, '../src/localdevServer.js')],
+    entry: [path.join(__dirname, '../example/localdevServer.js')],
     devtool: 'source-map',
     output: {
         path: path.join(__dirname, '../lib'),

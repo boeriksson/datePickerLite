@@ -6,12 +6,19 @@ Uses https://github.com/js-joda/js-joda (The whole point of this is to create a 
 
 Dates should be in a local dateTimeFormat ('YYYY-MM-DDTHH:MM')
 
-Useage: 
+Usage:
 
-```<DatePickerLite
+```
+<DatePickerLite
    startDate={ startDate }
    endDate={ endDate }
    onDatesChange={ function({ startDate, endDate }) }
-   navPrev={ <ArrowLeft/> }
-   navNext={ <ArrowRight/> }
-/>```
+   callback={ function() // function that will be called on componentDidMount() and return the following object:
+        {
+            currentlyDisplayedMonth, //String: 'YYYY:MM'
+            stepForward, //function - change display to one month forward
+            stepBackward, //function - backwards
+        }
+   }
+/>
+```
