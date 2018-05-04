@@ -2,12 +2,15 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
+import { getModelByDate } from './model'
+
 const baseStyles = (props) => props.theme.skins.Base.Container(props)
 const StyledBase = styled.div`${baseStyles}`
 
 class Base extends Component {
     constructor(props) {
         super(props)
+        this.model =
     }
 
     componentDidMount() {
