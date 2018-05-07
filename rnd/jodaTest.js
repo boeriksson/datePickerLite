@@ -4,6 +4,10 @@ const j = require('../node_modules/js-joda')
 const d = j.LocalDate.parse('2016-12-24');
 console.log('d: ', d.toString());
 
+console.log('dayOfMonth: ', d.dayOfMonth());
+
+console.log('---------------------------------');
+
 console.log(j.LocalDateTime.parse('2016-02-26T09:42').toString());
 
 console.log(j.ZonedDateTime.parse('2016-02-26T09:42+01:00').toString());
@@ -38,4 +42,3 @@ const forEachWeekDay = (startDate, dayNo = 0) => f => {
 }
 
 forEachWeekDay(now)((date) => console.log('date: ', date.dayOfWeek().toString().toLowerCase().substr(0, 2)))
-

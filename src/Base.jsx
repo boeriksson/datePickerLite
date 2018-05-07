@@ -10,7 +10,8 @@ const StyledBase = styled.div`${baseStyles}`
 class Base extends Component {
     constructor(props) {
         super(props)
-        this.model =
+        this.model = getModelByDate()
+        console.log('Model: ', this.model);
     }
 
     componentDidMount() {
