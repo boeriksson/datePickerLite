@@ -10,8 +10,9 @@ const StyledBase = styled.div`${baseStyles}`
 class Base extends Component {
     constructor(props) {
         super(props)
+        console.log('base.. %o', this);
         this.model = getModelByDate()
-        console.log('Model: ', this.model);
+        //console.log('Model: ', model);
     }
 
     componentDidMount() {
@@ -34,7 +35,7 @@ class Base extends Component {
 }
 
 Base.propTypes = {
-    startDate: PropTypes.string,
+    displayDate: PropTypes.string,
     endDate: PropTypes.string,
     onDatesChange: PropTypes.func,
     callback: PropTypes.func

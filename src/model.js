@@ -6,55 +6,56 @@ const parseWeekFromDay1 = (startDate, dayNo = 0) => f => {
     }
 }
 
-const parseWeekFromAnyDay =(day => parseWeekFromDay1(day.minusDays(day.dayOfWeek().value() - 1)))
+const firstWeekDay = (day) => day.minusDays(day.dayOfWeek().value() - 1)
+
+const parseWeekFromAnyDay =(day => parseWeekFromDay1(firstWeekDay(day)))
 
 const getWeekHeaders = day => parseWeekFromAnyDay(day)((date) => date.dayOfWeek().toString().toLowerCase().substr(0, 2))
 
-const populateMonthDisplay2 = (day, monthNo = day.month().value()) => {
-    console.log('3: ', day.minusDays(day.dayOfWeek().value() - 1).month().value())
-    console.log('monthNo: ', monthNo)
-    if (day.minusDays(day.dayOfWeek().value() - 1).month().value() <= monthNo) {
+const populateMonthDisplay = (conf, monthNo = conf.displayDate.month().value()) => {
+    if (firstWeekDay(conf.displayDate).month().value() <= monthNo) {
         return [
-            parseWeekFromAnyDay(day)((date) => ({
-                dayNo: date.dayOfMonth()
+            parseWeekFromAnyDay(conf.displayDate)((date) => ({
+                dayNo: date.dayOfMonth(),
+                inMonth: date.month().value() === monthNo,
+                allowed: (conf.allowedStartDate ? date.isAfter(conf.allowedStartDate) : true)
+                    && (conf.allowedEndDate ? date.isBefore(conf.allowedEndDate) : true)
             })),
-            ...populateMonthDisplay2(day.plusDays(7), monthNo)
+            ...populateMonthDisplay({
+                ...conf,
+                displayDate: conf.displayDate.plusDays(7),
+            }, monthNo)
         ]
+    } else {
+        return []
     }
 }
 
-const populateMonthDisplay = (firstDayOfMonth) => {
-    const monthArray = []
-    let day = firstDayOfMonth
-    const month = firstDayOfMonth.month()
-    while (day.month() === month) {
-        const week = parseWeekFromAnyDay(day)((date) => ({
-            dayNo: date.dayOfMonth()
-        }))
-        monthArray.push(week)
-        day = day.plusDays(7)
-    }
-    return monthArray;
-}
+const getDisplayDate = ({ displayDate = LocalDate.now() }) => displayDate.minusDays(displayDate.dayOfMonth() - 1)
 
-
-export const getModelByDate = (dateStr) => {
+export const getModelByDate = (config = {}) => {
+    // config: { startDate, selectedStartDate, selectedEndDate, allowedStartDate, allowedEndDate }
     //check if dateStr is str, or localdate and then base model on that
     //else use today
-    const date = LocalDate.now()
 
-    //get first day of month
-    const firstDayOfMonth = date.minusDays(date.dayOfMonth() - 1)
+    //get first day of month and set that as startdate in config
+    //const startDate = startDate.minusDays(startDate.dayOfMonth() - 1)
 
-    //get last day of month
-    //const lastDayOfMonth = date.plusDays(date.lengthOfMonth() - date.dayOfMonth())
+    const conf = {
+        displayDate: getDisplayDate(config), // Date in month to display - change to first day of month..
+        selectedStartDate: config.selectedStartDate, // If selection, this is the startdate
+        selectedEndDate: config.selectedEndDate, // If selection, enddate
+        allowedStartDate: config.allowedStartDate, // If allowedrange, this is startdate
+        allowedEndDate: config.allowedEndDate // allowedrange enddate
+    }
 
     //create array and add dayHeaders
-    const weekHeaders = getWeekHeaders(firstDayOfMonth);
+    const weekHeaders = getWeekHeaders(conf.displayDate);
 
     //create array and add weeks until last day of month has passed
     //  create array and add weekdays for each week.
-    const monthDisplay = populateMonthDisplay2(firstDayOfMonth)
+    const monthDisplay = populateMonthDisplay(conf)
+    console.log('monthDisplay: ', monthDisplay);
 
     return { weekHeaders, monthDisplay }
 }
