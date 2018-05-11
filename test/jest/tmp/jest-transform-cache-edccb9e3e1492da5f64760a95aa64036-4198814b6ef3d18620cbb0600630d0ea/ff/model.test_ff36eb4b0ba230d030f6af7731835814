@@ -1,0 +1,14 @@
+c9427789671a6d6dd5c0df7e8f4eb695
+'use strict';
+
+var _jsJoda = require('js-joda');
+
+var _model = require('./model');
+
+describe('#firstWeekDay', function () {
+    test('should return a monday in same week if given a thursday', function () {
+        var givenDay = _jsJoda.LocalDate.parse('2018-05-11');
+        expect((0, _model.firstWeekDay)(givenDay).dayOfWeek().toString()).toBe('MONDAY');
+    });
+});
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIm1vZGVsLnRlc3QuanMiXSwibmFtZXMiOlsiZGVzY3JpYmUiLCJ0ZXN0IiwiZ2l2ZW5EYXkiLCJwYXJzZSIsImV4cGVjdCIsImRheU9mV2VlayIsInRvU3RyaW5nIiwidG9CZSJdLCJtYXBwaW5ncyI6Ijs7QUFBQTs7QUFFQTs7QUFLQUEsU0FBUyxlQUFULEVBQTBCLFlBQU07QUFDNUJDLFNBQUsseURBQUwsRUFBZ0UsWUFBTTtBQUNsRSxZQUFNQyxXQUFXLGtCQUFVQyxLQUFWLENBQWdCLFlBQWhCLENBQWpCO0FBQ0FDLGVBQU8seUJBQWFGLFFBQWIsRUFBdUJHLFNBQXZCLEdBQW1DQyxRQUFuQyxFQUFQLEVBQXNEQyxJQUF0RCxDQUEyRCxRQUEzRDtBQUNILEtBSEQ7QUFJSCxDQUxEIiwiZmlsZSI6Im1vZGVsLnRlc3QuanMiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyBMb2NhbERhdGUgfSBmcm9tICdqcy1qb2RhJ1xyXG5cclxuaW1wb3J0IHtcclxuICAgIGZpcnN0V2Vla0RheVxyXG59IGZyb20gJy4vbW9kZWwnXHJcblxyXG5cclxuZGVzY3JpYmUoJyNmaXJzdFdlZWtEYXknLCAoKSA9PiB7XHJcbiAgICB0ZXN0KCdzaG91bGQgcmV0dXJuIGEgbW9uZGF5IGluIHNhbWUgd2VlayBpZiBnaXZlbiBhIHRodXJzZGF5JywgKCkgPT4ge1xyXG4gICAgICAgIGNvbnN0IGdpdmVuRGF5ID0gTG9jYWxEYXRlLnBhcnNlKCcyMDE4LTA1LTExJyk7XHJcbiAgICAgICAgZXhwZWN0KGZpcnN0V2Vla0RheShnaXZlbkRheSkuZGF5T2ZXZWVrKCkudG9TdHJpbmcoKSkudG9CZSgnTU9OREFZJyk7XHJcbiAgICB9KTtcclxufSlcclxuIl19

@@ -1,0 +1,1 @@
+{"version":3,"sources":["shim.js"],"names":["global","requestAnimationFrame","callback","setTimeout"],"mappings":"AAAAA,OAAOC,qBAAP,GAAgCC,QAAD,IAAc;AACzCC,eAAWD,QAAX,EAAqB,CAArB;AACH,CAFD","file":"shim.js","sourcesContent":["global.requestAnimationFrame = (callback) => {\r\n    setTimeout(callback, 0);\r\n};\r\n"]}

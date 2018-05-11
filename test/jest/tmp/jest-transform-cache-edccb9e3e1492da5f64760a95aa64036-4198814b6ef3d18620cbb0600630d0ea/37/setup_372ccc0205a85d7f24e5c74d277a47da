@@ -1,0 +1,31 @@
+23ca6c8caefde16073e9208ca1f800e5
+'use strict';
+
+var _jsdom = require('jsdom');
+
+var _xhr = require('xhr2');
+
+var _xhr2 = _interopRequireDefault(_xhr);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var _ref = new _jsdom.JSDOM('<!DOCTYPE html><html><body>Hello world</body></html>'),
+    window = _ref.window;
+
+var document = window.document;
+var parent = window;
+var self = window;
+
+// Combine both jest and chai matchers on expect
+var jestExpect = global.expect;
+
+// Setup mocked global objects.
+Object.assign(global, {
+    expect: expect,
+    window: window,
+    parent: parent,
+    self: self,
+    document: document,
+    XMLHttpRequest: _xhr2.default
+});
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNldHVwLmpzIl0sIm5hbWVzIjpbIndpbmRvdyIsImRvY3VtZW50IiwicGFyZW50Iiwic2VsZiIsImplc3RFeHBlY3QiLCJnbG9iYWwiLCJleHBlY3QiLCJPYmplY3QiLCJhc3NpZ24iLCJYTUxIdHRwUmVxdWVzdCJdLCJtYXBwaW5ncyI6Ijs7QUFBQTs7QUFDQTs7Ozs7O1dBRWlCLHdFO0lBQVZBLE0sUUFBQUEsTTs7QUFDUCxJQUFNQyxXQUFXRCxPQUFPQyxRQUF4QjtBQUNBLElBQU1DLFNBQVNGLE1BQWY7QUFDQSxJQUFNRyxPQUFPSCxNQUFiOztBQUVBO0FBQ0EsSUFBTUksYUFBYUMsT0FBT0MsTUFBMUI7O0FBRUE7QUFDQUMsT0FBT0MsTUFBUCxDQUFjSCxNQUFkLEVBQXNCO0FBQ2xCQyxrQkFEa0I7QUFFbEJOLGtCQUZrQjtBQUdsQkUsa0JBSGtCO0FBSWxCQyxjQUprQjtBQUtsQkYsc0JBTGtCO0FBTWxCUTtBQU5rQixDQUF0QiIsImZpbGUiOiJzZXR1cC5qcyIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7SlNET019IGZyb20gJ2pzZG9tJztcbmltcG9ydCBYTUxIdHRwUmVxdWVzdCBmcm9tICd4aHIyJztcblxuY29uc3Qge3dpbmRvd30gPSBuZXcgSlNET00oYDwhRE9DVFlQRSBodG1sPjxodG1sPjxib2R5PkhlbGxvIHdvcmxkPC9ib2R5PjwvaHRtbD5gKTtcbmNvbnN0IGRvY3VtZW50ID0gd2luZG93LmRvY3VtZW50O1xuY29uc3QgcGFyZW50ID0gd2luZG93O1xuY29uc3Qgc2VsZiA9IHdpbmRvdztcblxuLy8gQ29tYmluZSBib3RoIGplc3QgYW5kIGNoYWkgbWF0Y2hlcnMgb24gZXhwZWN0XG5jb25zdCBqZXN0RXhwZWN0ID0gZ2xvYmFsLmV4cGVjdDtcblxuLy8gU2V0dXAgbW9ja2VkIGdsb2JhbCBvYmplY3RzLlxuT2JqZWN0LmFzc2lnbihnbG9iYWwsIHtcbiAgICBleHBlY3QsXG4gICAgd2luZG93LFxuICAgIHBhcmVudCxcbiAgICBzZWxmLFxuICAgIGRvY3VtZW50LFxuICAgIFhNTEh0dHBSZXF1ZXN0XG59KTtcbiJdfQ==

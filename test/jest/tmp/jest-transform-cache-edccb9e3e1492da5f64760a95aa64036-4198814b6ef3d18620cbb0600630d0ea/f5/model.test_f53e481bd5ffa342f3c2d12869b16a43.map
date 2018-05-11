@@ -1,0 +1,1 @@
+{"version":3,"sources":["model.test.js"],"names":["test","expect","toBe"],"mappings":";;AAAA;;;;;;AAEAA,KAAK,uBAAL,EAA8B,YAAM;AAChCC,WAAO,IAAI,CAAX,EAAcC,IAAd,CAAmB,CAAnB;AACH,CAFD","file":"model.test.js","sourcesContent":["import model from './model.js'\r\n\r\ntest('adds 1 + 2 to equal 3', () => {\r\n    expect(1 + 2).toBe(3);\r\n});\r\n"]}

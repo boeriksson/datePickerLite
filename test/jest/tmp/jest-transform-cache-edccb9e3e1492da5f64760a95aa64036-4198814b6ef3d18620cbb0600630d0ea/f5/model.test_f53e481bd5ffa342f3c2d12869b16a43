@@ -1,0 +1,13 @@
+d390f2ce537cce31b3c1ca95b7e97ed4
+'use strict';
+
+var _model = require('./model.js');
+
+var _model2 = _interopRequireDefault(_model);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+test('adds 1 + 2 to equal 3', function () {
+    expect(1 + 2).toBe(3);
+});
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIm1vZGVsLnRlc3QuanMiXSwibmFtZXMiOlsidGVzdCIsImV4cGVjdCIsInRvQmUiXSwibWFwcGluZ3MiOiI7O0FBQUE7Ozs7OztBQUVBQSxLQUFLLHVCQUFMLEVBQThCLFlBQU07QUFDaENDLFdBQU8sSUFBSSxDQUFYLEVBQWNDLElBQWQsQ0FBbUIsQ0FBbkI7QUFDSCxDQUZEIiwiZmlsZSI6Im1vZGVsLnRlc3QuanMiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgbW9kZWwgZnJvbSAnLi9tb2RlbC5qcydcclxuXHJcbnRlc3QoJ2FkZHMgMSArIDIgdG8gZXF1YWwgMycsICgpID0+IHtcclxuICAgIGV4cGVjdCgxICsgMikudG9CZSgzKTtcclxufSk7XHJcbiJdfQ==

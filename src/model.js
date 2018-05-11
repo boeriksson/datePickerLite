@@ -1,25 +1,30 @@
 import { LocalDate } from 'js-joda'
 
-const parseWeekFromDay1 = (startDate, dayNo = 0) => f => {
+export const parseWeekFromDay1 = (startDate, dayNo = 0) => f => {
     if (dayNo < 7) {
         return [ f(startDate.plusDays(dayNo)), ...(parseWeekFromDay1(startDate, dayNo + 1)(f) || []) ]
     }
 }
 
-const firstWeekDay = (day) => day.minusDays(day.dayOfWeek().value() - 1)
+export const firstWeekDay = (day) => day.minusDays(day.dayOfWeek().value() - 1)
 
 const parseWeekFromAnyDay =(day => parseWeekFromDay1(firstWeekDay(day)))
 
 const getWeekHeaders = day => parseWeekFromAnyDay(day)((date) => date.dayOfWeek().toString().toLowerCase().substr(0, 2))
 
-const populateMonthDisplay = (conf, monthNo = conf.displayDate.month().value()) => {
+export const isWithinRange = (date, startDate, endDate) => startDate && endDate
+    && (date.isAfter(startDate) || date.isEqual(startDate)) && (date.isBefore(endDate) || date.isEqual(endDate))
+
+export const populateMonthDisplay = (conf, monthNo = conf.displayDate.month().value()) => {
     if (firstWeekDay(conf.displayDate).month().value() <= monthNo) {
         return [
             parseWeekFromAnyDay(conf.displayDate)((date) => ({
                 dayNo: date.dayOfMonth(),
                 inMonth: date.month().value() === monthNo,
-                allowed: (conf.allowedStartDate ? date.isAfter(conf.allowedStartDate) : true)
-                    && (conf.allowedEndDate ? date.isBefore(conf.allowedEndDate) : true)
+                allowed: isWithinRange(date, conf.allowedStartDate, conf.allowedEndDate),
+                selected: isWithinRange(date, conf.selectedStartDate, conf.selectedEndDate),
+                selectedEdge: conf.selectedStartDate && conf.selectedEndDate
+                    && (date.isEqual(conf.selectedStartDate) || date.isEqual(conf.selectedEndDate))
             })),
             ...populateMonthDisplay({
                 ...conf,

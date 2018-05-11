@@ -1,0 +1,15 @@
+8a96bdaf8ce5cad143cc185ecffc0263
+'use strict';
+
+var _model = require('./model.js');
+
+var _model2 = _interopRequireDefault(_model);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var sum = require('./sum');
+
+test('adds 1 + 2 to equal 3', function () {
+    expect(sum(1, 2)).toBe(3);
+});
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIm1vZGVsLnRlc3QuanMiXSwibmFtZXMiOlsic3VtIiwicmVxdWlyZSIsInRlc3QiLCJleHBlY3QiLCJ0b0JlIl0sIm1hcHBpbmdzIjoiOztBQUFBOzs7Ozs7QUFFQSxJQUFNQSxNQUFNQyxRQUFRLE9BQVIsQ0FBWjs7QUFFQUMsS0FBSyx1QkFBTCxFQUE4QixZQUFNO0FBQ2hDQyxXQUFPSCxJQUFJLENBQUosRUFBTyxDQUFQLENBQVAsRUFBa0JJLElBQWxCLENBQXVCLENBQXZCO0FBQ0gsQ0FGRCIsImZpbGUiOiJtb2RlbC50ZXN0LmpzIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IG1vZGVsIGZyb20gJy4vbW9kZWwuanMnXHJcblxyXG5jb25zdCBzdW0gPSByZXF1aXJlKCcuL3N1bScpO1xyXG5cclxudGVzdCgnYWRkcyAxICsgMiB0byBlcXVhbCAzJywgKCkgPT4ge1xyXG4gICAgZXhwZWN0KHN1bSgxLCAyKSkudG9CZSgzKTtcclxufSk7XHJcbiJdfQ==

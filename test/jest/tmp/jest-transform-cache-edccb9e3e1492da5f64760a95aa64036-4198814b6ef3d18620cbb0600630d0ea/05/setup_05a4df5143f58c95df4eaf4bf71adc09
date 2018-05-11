@@ -1,0 +1,104 @@
+481dde41c49dae17773280981f65b56b
+'use strict';
+
+var _chai = require('chai');
+
+var _chai2 = _interopRequireDefault(_chai);
+
+var _dirtyChai = require('dirty-chai');
+
+var _dirtyChai2 = _interopRequireDefault(_dirtyChai);
+
+var _chaiEnzyme = require('chai-enzyme');
+
+var _chaiEnzyme2 = _interopRequireDefault(_chaiEnzyme);
+
+var _context = require('./_mocks/context');
+
+var _context2 = _interopRequireDefault(_context);
+
+var _translations = require('./_mocks/translations');
+
+var _translations2 = _interopRequireDefault(_translations);
+
+var _jsdom = require('jsdom');
+
+var _xhr = require('xhr2');
+
+var _xhr2 = _interopRequireDefault(_xhr);
+
+var _enzyme = require('enzyme');
+
+var _enzymeAdapterReact = require('enzyme-adapter-react-16');
+
+var _enzymeAdapterReact2 = _interopRequireDefault(_enzymeAdapterReact);
+
+require('raf/polyfill');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var _ref = new _jsdom.JSDOM('<!DOCTYPE html><html><body>Hello world</body></html>'),
+    window = _ref.window;
+
+var document = window.document;
+var parent = window;
+var self = window;
+
+(0, _enzyme.configure)({ adapter: new _enzymeAdapterReact2.default() });
+
+_chai2.default.use(_dirtyChai2.default);
+_chai2.default.use((0, _chaiEnzyme2.default)());
+
+// Make sure chai and jasmine ".not" play nice together
+var originalNot = Object.getOwnPropertyDescriptor(_chai2.default.Assertion.prototype, 'not').get;
+Object.defineProperty(_chai2.default.Assertion.prototype, 'not', {
+    get: function get() {
+        Object.assign(this, this.assignedNot);
+        return originalNot.apply(this);
+    },
+    set: function set(newNot) {
+        this.assignedNot = newNot;
+        return newNot;
+    }
+});
+
+// Combine both jest and chai matchers on expect
+var jestExpect = global.expect;
+
+var expect = function expect(actual) {
+    var originalMatchers = jestExpect(actual);
+    var chaiMatchers = _chai2.default.expect(actual);
+    return Object.assign(chaiMatchers, originalMatchers);
+};
+
+var config = {
+    module: "entercash-withdrawal",
+    archetype: "withdrawal"
+};
+
+// Setup mocked global objects.
+Object.assign(global, {
+    config: config,
+    context: _context2.default,
+    translations: _translations2.default,
+    expect: expect,
+    window: window,
+    parent: parent,
+    self: self,
+    document: document,
+    XMLHttpRequest: _xhr2.default
+});
+
+/**
+ * Now we should attach some properties
+ * of [window] object to [global] in
+ * order to use them as usual, without "window." prefix.
+ * Only now because we assign some of them in <setupPolyfills.js>
+ */
+
+// Object.assign(
+//     global,
+//     ['navigator', 'location', 'CustomEvent', 'Event', 'fetch']
+//         .reduce((res, key) => Object.assign({}, res, {[key]: global.window[key]}), {})
+// );
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNldHVwLmpzIl0sIm5hbWVzIjpbIndpbmRvdyIsImRvY3VtZW50IiwicGFyZW50Iiwic2VsZiIsImFkYXB0ZXIiLCJ1c2UiLCJvcmlnaW5hbE5vdCIsIk9iamVjdCIsImdldE93blByb3BlcnR5RGVzY3JpcHRvciIsIkFzc2VydGlvbiIsInByb3RvdHlwZSIsImdldCIsImRlZmluZVByb3BlcnR5IiwiYXNzaWduIiwiYXNzaWduZWROb3QiLCJhcHBseSIsInNldCIsIm5ld05vdCIsImplc3RFeHBlY3QiLCJnbG9iYWwiLCJleHBlY3QiLCJvcmlnaW5hbE1hdGNoZXJzIiwiYWN0dWFsIiwiY2hhaU1hdGNoZXJzIiwiY29uZmlnIiwibW9kdWxlIiwiYXJjaGV0eXBlIiwiY29udGV4dCIsInRyYW5zbGF0aW9ucyIsIlhNTEh0dHBSZXF1ZXN0Il0sIm1hcHBpbmdzIjoiOztBQUFBOzs7O0FBQ0E7Ozs7QUFDQTs7OztBQUNBOzs7O0FBQ0E7Ozs7QUFDQTs7QUFDQTs7OztBQUNBOztBQUNBOzs7O0FBQ0E7Ozs7V0FFaUIsd0U7SUFBVkEsTSxRQUFBQSxNOztBQUNQLElBQU1DLFdBQVdELE9BQU9DLFFBQXhCO0FBQ0EsSUFBTUMsU0FBU0YsTUFBZjtBQUNBLElBQU1HLE9BQU9ILE1BQWI7O0FBRUEsdUJBQVUsRUFBRUksU0FBUyxrQ0FBWCxFQUFWOztBQUVBLGVBQUtDLEdBQUw7QUFDQSxlQUFLQSxHQUFMLENBQVMsMkJBQVQ7O0FBRUE7QUFDQSxJQUFNQyxjQUFjQyxPQUFPQyx3QkFBUCxDQUFnQyxlQUFLQyxTQUFMLENBQWVDLFNBQS9DLEVBQTBELEtBQTFELEVBQWlFQyxHQUFyRjtBQUNBSixPQUFPSyxjQUFQLENBQXNCLGVBQUtILFNBQUwsQ0FBZUMsU0FBckMsRUFBZ0QsS0FBaEQsRUFBdUQ7QUFDbkRDLE9BRG1ELGlCQUM3QztBQUNGSixlQUFPTSxNQUFQLENBQWMsSUFBZCxFQUFvQixLQUFLQyxXQUF6QjtBQUNBLGVBQU9SLFlBQVlTLEtBQVosQ0FBa0IsSUFBbEIsQ0FBUDtBQUNILEtBSmtEO0FBS25EQyxPQUxtRCxlQUsvQ0MsTUFMK0MsRUFLdkM7QUFDUixhQUFLSCxXQUFMLEdBQW1CRyxNQUFuQjtBQUNBLGVBQU9BLE1BQVA7QUFDSDtBQVJrRCxDQUF2RDs7QUFXQTtBQUNBLElBQU1DLGFBQWFDLE9BQU9DLE1BQTFCOztBQUVBLElBQU1BLFNBQVMsU0FBVEEsTUFBUyxTQUFVO0FBQ3JCLFFBQU1DLG1CQUFtQkgsV0FBV0ksTUFBWCxDQUF6QjtBQUNBLFFBQU1DLGVBQWUsZUFBS0gsTUFBTCxDQUFZRSxNQUFaLENBQXJCO0FBQ0EsV0FBT2YsT0FBT00sTUFBUCxDQUFjVSxZQUFkLEVBQTRCRixnQkFBNUIsQ0FBUDtBQUNILENBSkQ7O0FBTUEsSUFBTUcsU0FBUztBQUNYQyxZQUFRLHNCQURHO0FBRVhDLGVBQVc7QUFGQSxDQUFmOztBQUtBO0FBQ0FuQixPQUFPTSxNQUFQLENBQWNNLE1BQWQsRUFBc0I7QUFDbEJLLGtCQURrQjtBQUVsQkcsOEJBRmtCO0FBR2xCQyx3Q0FIa0I7QUFJbEJSLGtCQUprQjtBQUtsQnBCLGtCQUxrQjtBQU1sQkUsa0JBTmtCO0FBT2xCQyxjQVBrQjtBQVFsQkYsc0JBUmtCO0FBU2xCNEI7QUFUa0IsQ0FBdEI7O0FBWUE7Ozs7Ozs7QUFPQTtBQUNBO0FBQ0E7QUFDQTtBQUNBIiwiZmlsZSI6InNldHVwLmpzIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IGNoYWkgZnJvbSAnY2hhaSc7XG5pbXBvcnQgZGlydHlDaGFpIGZyb20gJ2RpcnR5LWNoYWknO1xuaW1wb3J0IGNoYWlFbnp5bWUgZnJvbSAnY2hhaS1lbnp5bWUnO1xuaW1wb3J0IGNvbnRleHQgZnJvbSAnLi9fbW9ja3MvY29udGV4dCc7XG5pbXBvcnQgdHJhbnNsYXRpb25zIGZyb20gJy4vX21vY2tzL3RyYW5zbGF0aW9ucyc7XG5pbXBvcnQge0pTRE9NfSBmcm9tICdqc2RvbSc7XG5pbXBvcnQgWE1MSHR0cFJlcXVlc3QgZnJvbSAneGhyMic7XG5pbXBvcnQgeyBjb25maWd1cmUgfSBmcm9tICdlbnp5bWUnO1xuaW1wb3J0IEFkYXB0ZXIgZnJvbSAnZW56eW1lLWFkYXB0ZXItcmVhY3QtMTYnO1xuaW1wb3J0ICdyYWYvcG9seWZpbGwnO1xuXG5jb25zdCB7d2luZG93fSA9IG5ldyBKU0RPTShgPCFET0NUWVBFIGh0bWw+PGh0bWw+PGJvZHk+SGVsbG8gd29ybGQ8L2JvZHk+PC9odG1sPmApO1xuY29uc3QgZG9jdW1lbnQgPSB3aW5kb3cuZG9jdW1lbnQ7XG5jb25zdCBwYXJlbnQgPSB3aW5kb3c7XG5jb25zdCBzZWxmID0gd2luZG93O1xuXG5jb25maWd1cmUoeyBhZGFwdGVyOiBuZXcgQWRhcHRlcigpIH0pO1xuXG5jaGFpLnVzZShkaXJ0eUNoYWkpO1xuY2hhaS51c2UoY2hhaUVuenltZSgpKTtcblxuLy8gTWFrZSBzdXJlIGNoYWkgYW5kIGphc21pbmUgXCIubm90XCIgcGxheSBuaWNlIHRvZ2V0aGVyXG5jb25zdCBvcmlnaW5hbE5vdCA9IE9iamVjdC5nZXRPd25Qcm9wZXJ0eURlc2NyaXB0b3IoY2hhaS5Bc3NlcnRpb24ucHJvdG90eXBlLCAnbm90JykuZ2V0O1xuT2JqZWN0LmRlZmluZVByb3BlcnR5KGNoYWkuQXNzZXJ0aW9uLnByb3RvdHlwZSwgJ25vdCcsIHtcbiAgICBnZXQoKSB7XG4gICAgICAgIE9iamVjdC5hc3NpZ24odGhpcywgdGhpcy5hc3NpZ25lZE5vdCk7XG4gICAgICAgIHJldHVybiBvcmlnaW5hbE5vdC5hcHBseSh0aGlzKTtcbiAgICB9LFxuICAgIHNldChuZXdOb3QpIHtcbiAgICAgICAgdGhpcy5hc3NpZ25lZE5vdCA9IG5ld05vdDtcbiAgICAgICAgcmV0dXJuIG5ld05vdDtcbiAgICB9XG59KTtcblxuLy8gQ29tYmluZSBib3RoIGplc3QgYW5kIGNoYWkgbWF0Y2hlcnMgb24gZXhwZWN0XG5jb25zdCBqZXN0RXhwZWN0ID0gZ2xvYmFsLmV4cGVjdDtcblxuY29uc3QgZXhwZWN0ID0gYWN0dWFsID0+IHtcbiAgICBjb25zdCBvcmlnaW5hbE1hdGNoZXJzID0gamVzdEV4cGVjdChhY3R1YWwpO1xuICAgIGNvbnN0IGNoYWlNYXRjaGVycyA9IGNoYWkuZXhwZWN0KGFjdHVhbCk7XG4gICAgcmV0dXJuIE9iamVjdC5hc3NpZ24oY2hhaU1hdGNoZXJzLCBvcmlnaW5hbE1hdGNoZXJzKTtcbn07XG5cbmNvbnN0IGNvbmZpZyA9IHtcbiAgICBtb2R1bGU6IFwiZW50ZXJjYXNoLXdpdGhkcmF3YWxcIixcbiAgICBhcmNoZXR5cGU6IFwid2l0aGRyYXdhbFwiXG59O1xuXG4vLyBTZXR1cCBtb2NrZWQgZ2xvYmFsIG9iamVjdHMuXG5PYmplY3QuYXNzaWduKGdsb2JhbCwge1xuICAgIGNvbmZpZyxcbiAgICBjb250ZXh0LFxuICAgIHRyYW5zbGF0aW9ucyxcbiAgICBleHBlY3QsXG4gICAgd2luZG93LFxuICAgIHBhcmVudCxcbiAgICBzZWxmLFxuICAgIGRvY3VtZW50LFxuICAgIFhNTEh0dHBSZXF1ZXN0XG59KTtcblxuLyoqXG4gKiBOb3cgd2Ugc2hvdWxkIGF0dGFjaCBzb21lIHByb3BlcnRpZXNcbiAqIG9mIFt3aW5kb3ddIG9iamVjdCB0byBbZ2xvYmFsXSBpblxuICogb3JkZXIgdG8gdXNlIHRoZW0gYXMgdXN1YWwsIHdpdGhvdXQgXCJ3aW5kb3cuXCIgcHJlZml4LlxuICogT25seSBub3cgYmVjYXVzZSB3ZSBhc3NpZ24gc29tZSBvZiB0aGVtIGluIDxzZXR1cFBvbHlmaWxscy5qcz5cbiAqL1xuXG4vLyBPYmplY3QuYXNzaWduKFxuLy8gICAgIGdsb2JhbCxcbi8vICAgICBbJ25hdmlnYXRvcicsICdsb2NhdGlvbicsICdDdXN0b21FdmVudCcsICdFdmVudCcsICdmZXRjaCddXG4vLyAgICAgICAgIC5yZWR1Y2UoKHJlcywga2V5KSA9PiBPYmplY3QuYXNzaWduKHt9LCByZXMsIHtba2V5XTogZ2xvYmFsLndpbmRvd1trZXldfSksIHt9KVxuLy8gKTtcbiJdfQ==
