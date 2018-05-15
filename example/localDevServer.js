@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 
 import DatePickerLite from '../src/DatePickerLite' //Modify this to 'datePickerLite/DatePickerLite'
@@ -12,25 +12,51 @@ const onDatesChange = ({ startDate, endDate }) => {
     console.log('onDatesChange startDate: %o, endDate: %o', startDate, endDate);
 }
 
-const callback = ({
-    currentlyDisplayedMonth,
-    stepForward,
-    stepBackward
-}) => {
-    console.log('callback currentlyDisplayedMonth: %o', currentlyDisplayedMonth);
-    stepForward()
-    stepBackward()
+class DatePickerLiteDemo extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            month: null
+        }
+        this.callback = this.callback.bind(this)
+    }
+    callback({
+        currentlyDisplayedMonth,
+        stepForward,
+        stepBackward
+    }) {
+        this.setState({
+            month: currentlyDisplayedMonth,
+            stepForward,
+            stepBackward
+        })
+    }
+    stepForward() {}
+    stepBackward() {}
+
+    render() {
+        return (
+            <div>
+                <div>
+                    <span>&lt;</span>
+                    <span>Month: { this.state.month }</span>
+                    <span>&gt;</span>
+                </div>
+                <DatePickerLite
+                    startDate={startDate}
+                    endDate={endDate}
+                    allowedStartDate={allowedStartDate}
+                    allowedEndDate={allowedEndDate}
+                    onDatesChange={onDatesChange}
+                    callback={ this.callback}
+                    theme={themeOverride}
+                />
+            </div>
+        )
+    }
 }
 
 ReactDOM.render(
-    <DatePickerLite
-        startDate={ startDate }
-        endDate={ endDate }
-        allowedStartDate={ allowedStartDate }
-        allowedEndDate={ allowedEndDate }
-        onDatesChange={ onDatesChange }
-        callback={ callback }
-        theme={ themeOverride }
-    />,
+    <DatePickerLiteDemo/>,
     document.getElementById('app')
 )
