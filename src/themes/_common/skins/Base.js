@@ -33,24 +33,30 @@ export const Day = {
       text-align: center;
       vertical-align: middle;
       box-sizing: border-box;
-      color: yellow;
+      color: #222222;
       
-      .allowed {
-        color: black;
+      &:hover:not(.unselectable) {
+          background-color: #e8e8e8;
       }
       
-      .inMonth {
-        color: blue
+      &.unselectable {
+        color: #bbbbbb;
       }
       
-      .selected {
-        background-color: magenta;
+      &:not(.inMonth) {
+        color: transparent;
       }
       
-      .selectedEdge {
-        background-color: red;
+      &.selected {
+        border: 1px solid #70e1a0;
+        background-color: #e7fce9;
       }
       
+      &.selectedEdge {
+        color: white;
+        border: 1px solid #147b45;
+        background-color: #147b45;
+      }
     `
 }
 
@@ -60,6 +66,7 @@ export const Header = {
       & > div {
         display: table-cell;
         text-align: center;
+        color: #777777;
       }
     `
 }

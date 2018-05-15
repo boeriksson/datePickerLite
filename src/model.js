@@ -1,4 +1,4 @@
-import { LocalDate } from 'js-joda'
+import { LocalDate, ChronoUnit } from 'js-joda'
 
 export const parseWeekFromDay1 = (startDate, dayNo = 0) => f => {
     if (dayNo < 7) {
@@ -15,13 +15,18 @@ const getWeekHeaders = day => parseWeekFromAnyDay(day)((date) => date.dayOfWeek(
 export const isWithinRange = (date, startDate, endDate) => startDate && endDate
     && (date.isAfter(startDate) || date.isEqual(startDate)) && (date.isBefore(endDate) || date.isEqual(endDate))
 
+export const isSelectable = (date, { allowedStartDate, allowedEndDate}) => (!allowedStartDate
+    || (date.isEqual(allowedStartDate) || date.isAfter(allowedStartDate)))
+    && (!allowedEndDate
+    || (date.isEqual(allowedEndDate) || date.isBefore(allowedEndDate)))
+
 export const populateMonthDisplay = (conf, monthNo = conf.displayDate.month().value()) => {
     if (firstWeekDay(conf.displayDate).month().value() <= monthNo) {
         return [
             parseWeekFromAnyDay(conf.displayDate)((date) => ({
                 dayNo: date.dayOfMonth(),
                 inMonth: date.month().value() === monthNo,
-                allowed: isWithinRange(date, conf.allowedStartDate, conf.allowedEndDate),
+                unselectable: !isSelectable(date, conf),
                 selected: isWithinRange(date, conf.selectedStartDate, conf.selectedEndDate),
                 selectedEdge: conf.selectedStartDate && conf.selectedEndDate
                     && (date.isEqual(conf.selectedStartDate) || date.isEqual(conf.selectedEndDate))
@@ -36,31 +41,28 @@ export const populateMonthDisplay = (conf, monthNo = conf.displayDate.month().va
     }
 }
 
-const getDisplayDate = ({ displayDate = LocalDate.now() }) => displayDate.minusDays(displayDate.dayOfMonth() - 1)
+const getDisplayDate = ({ displayDate, selectedStartDate, selectedEndDate }) => {
+    if (displayDate) return displayDate
+    const nowDate = LocalDate.now()
+    if (!selectedStartDate) return nowDate
+    return nowDate.until(selectedStartDate, ChronoUnit.DAYS) < nowDate.until(selectedEndDate, ChronoUnit.DAYS)
+        ? selectedStartDate : selectedEndDate
+}
+
+const getFirstDayOfMonth = (date) => date.minusDays(date.dayOfMonth() - 1)
 
 export const getModelByDate = (config = {}) => {
-    // config: { startDate, selectedStartDate, selectedEndDate, allowedStartDate, allowedEndDate }
-    //check if dateStr is str, or localdate and then base model on that
-    //else use today
-
-    //get first day of month and set that as startdate in config
-    //const startDate = startDate.minusDays(startDate.dayOfMonth() - 1)
-
     const conf = {
-        displayDate: getDisplayDate(config), // Date in month to display - change to first day of month..
-        selectedStartDate: config.selectedStartDate, // If selection, this is the startdate
-        selectedEndDate: config.selectedEndDate, // If selection, enddate
-        allowedStartDate: config.allowedStartDate, // If allowedrange, this is startdate
-        allowedEndDate: config.allowedEndDate // allowedrange enddate
+        displayDate: config.displayDate ? LocalDate.parse(config.displayDate): undefined,
+        selectedStartDate: config.selectedStartDate ? LocalDate.parse(config.selectedStartDate): undefined,
+        selectedEndDate: config.selectedEndDate ? LocalDate.parse(config.selectedEndDate): undefined,
+        allowedStartDate: config.allowedStartDate ? LocalDate.parse(config.allowedStartDate): undefined,
+        allowedEndDate: config.allowedEndDate ? LocalDate.parse(config.allowedEndDate): undefined
     }
-
-    //create array and add dayHeaders
-    const weekHeaders = getWeekHeaders(conf.displayDate);
-
-    //create array and add weeks until last day of month has passed
-    //  create array and add weekdays for each week.
+    conf.displayDate = getFirstDayOfMonth(getDisplayDate(conf))
+    const weekHeaders = getWeekHeaders(conf.displayDate)
     const monthDisplay = populateMonthDisplay(conf)
-    console.log('monthDisplay: ', monthDisplay);
+    console.log('monthDisplay: ', monthDisplay)
 
     return { weekHeaders, monthDisplay }
 }

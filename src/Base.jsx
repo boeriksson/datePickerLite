@@ -20,8 +20,13 @@ class Base extends Component {
     constructor(props) {
         super(props)
         console.log('base.. %o', this);
-        this.model = getModelByDate()
-        //console.log('Model: ', model);
+        this.model = getModelByDate({
+            displayDate: props.displayDate,
+            selectedStartDate: props.startDate,
+            selectedEndDate: props.endDate,
+            allowedStartDate: props.allowedStartDate,
+            allowedEndDate: props.allowedEndDate
+        })
     }
 
     componentDidMount() {
@@ -39,8 +44,8 @@ class Base extends Component {
         </StyledHeader>)
         const month = monthDisplay.map((week, ix) =>
             <StyledRow key={ ix }>{ week.map((day, ix) =>
-                <StyledDay key={ix} classNames={ classnames(day) }>{day.dayNo}</StyledDay>)
-            }</StyledRow>)
+                <StyledDay key={ix} className={ classnames(day) }>{day.dayNo}</StyledDay>
+            )}</StyledRow>)
         return (
             <StyledGrid>
                 { headers }
@@ -53,8 +58,6 @@ class Base extends Component {
         const { startDate, endDate } = this.props;
         return (
             <StyledBase>
-                <div>startDate: { startDate }</div>
-                <div>endDate: { endDate }</div>
                 { this.displayModel() }
             </StyledBase>
         )
@@ -63,7 +66,10 @@ class Base extends Component {
 
 Base.propTypes = {
     displayDate: PropTypes.string,
+    startDate: PropTypes.string,
     endDate: PropTypes.string,
+    allowedStartDate: PropTypes.string,
+    allowedEndDate: PropTypes.string,
     onDatesChange: PropTypes.func,
     callback: PropTypes.func
 }
