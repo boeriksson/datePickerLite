@@ -4,7 +4,7 @@ export const Container = {
     getDefaultStyle: (theme) => css`
         font-weight: 800;
         padding-bottom: 10px;
-        padding-top: 35px;
+        padding-top: 5px;
         font-family: Roboto,sans serif;
         
     `
@@ -16,6 +16,7 @@ export const Grid = {
       font-size: 14px;
       line-height: 20px;
       font-weight: 400;
+      border-collapse: collapse;
     `
 }
 

@@ -12,35 +12,52 @@ const onDatesChange = ({ startDate, endDate }) => {
     console.log('onDatesChange startDate: %o, endDate: %o', startDate, endDate);
 }
 
+const headerStyle = {
+    display: 'flex',
+    justifyContent: 'space-around',
+    width: '273px'
+}
+
+const buttonStyle = {
+    cursor: 'pointer'
+}
+
 class DatePickerLiteDemo extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            month: null
+            currentlyDisplayedMonth: () => {}
         }
-        this.callback = this.callback.bind(this)
     }
-    callback({
+    callback = ({
         currentlyDisplayedMonth,
         stepForward,
         stepBackward
-    }) {
+    }) => {
         this.setState({
-            month: currentlyDisplayedMonth,
+            currentlyDisplayedMonth,
             stepForward,
-            stepBackward
+            stepBackward,
+            month: currentlyDisplayedMonth()
         })
     }
-    stepForward() {}
-    stepBackward() {}
+
+    stepBackward = (e) => {
+        this.state.stepBackward()
+        this.setState({ month: this.state.currentlyDisplayedMonth() })
+    }
+    stepForward = (e) => {
+        this.state.stepForward()
+        this.setState({ month: this.state.currentlyDisplayedMonth() })
+    }
 
     render() {
         return (
             <div>
-                <div>
-                    <span>&lt;</span>
+                <div style={ headerStyle }>
+                    <span onClick={ this.stepBackward } style={ buttonStyle }>&lt;</span>
                     <span>Month: { this.state.month }</span>
-                    <span>&gt;</span>
+                    <span onClick={ this.stepForward } style={ buttonStyle }>&gt;</span>
                 </div>
                 <DatePickerLite
                     startDate={startDate}

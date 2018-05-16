@@ -8,7 +8,7 @@ export const parseWeekFromDay1 = (startDate, dayNo = 0) => f => {
 
 export const firstWeekDay = (day) => day.minusDays(day.dayOfWeek().value() - 1)
 
-const parseWeekFromAnyDay =(day => parseWeekFromDay1(firstWeekDay(day)))
+const parseWeekFromAnyDay = (day => parseWeekFromDay1(firstWeekDay(day)))
 
 const getWeekHeaders = day => parseWeekFromAnyDay(day)((date) => date.dayOfWeek().toString().toLowerCase().substr(0, 2))
 
@@ -20,8 +20,11 @@ export const isSelectable = (date, { allowedStartDate, allowedEndDate}) => (!all
     && (!allowedEndDate
     || (date.isEqual(allowedEndDate) || date.isBefore(allowedEndDate)))
 
+export const getPreviousMonth = (monthNo) => monthNo === 1 ? 12 : monthNo - 1
+
 export const populateMonthDisplay = (conf, monthNo = conf.displayDate.month().value()) => {
-    if (firstWeekDay(conf.displayDate).month().value() <= monthNo) {
+    const firstWeekDayMonth = firstWeekDay(conf.displayDate).month().value();
+    if (firstWeekDayMonth === monthNo || firstWeekDayMonth === getPreviousMonth(monthNo)) {
         return [
             parseWeekFromAnyDay(conf.displayDate)((date) => ({
                 dayNo: date.dayOfMonth(),
@@ -51,7 +54,7 @@ const getDisplayDate = ({ displayDate, selectedStartDate, selectedEndDate }) => 
 
 const getFirstDayOfMonth = (date) => date.minusDays(date.dayOfMonth() - 1)
 
-export const getModelByDate = (config = {}) => {
+const parseConfigToJoda = (config) => {
     const conf = {
         displayDate: config.displayDate ? LocalDate.parse(config.displayDate): undefined,
         selectedStartDate: config.selectedStartDate ? LocalDate.parse(config.selectedStartDate): undefined,
@@ -60,9 +63,32 @@ export const getModelByDate = (config = {}) => {
         allowedEndDate: config.allowedEndDate ? LocalDate.parse(config.allowedEndDate): undefined
     }
     conf.displayDate = getFirstDayOfMonth(getDisplayDate(conf))
+    return conf;
+}
+
+const parseConfigToText = ({ displayDate, selectedStartDate, selectedEndDate, allowedStartDate, allowedEndDate }) => ({
+    displayDate: displayDate && displayDate.toString(),
+    selectedStartDate: selectedStartDate && selectedStartDate.toString(),
+    selectedEndDate: selectedEndDate && selectedEndDate.toString(),
+    allowedStartDate: allowedStartDate && allowedStartDate.toString(),
+    allowedEndDate: allowedEndDate && allowedEndDate.toString()
+})
+
+export const getModelByDate = (config = {}) => {
+    const conf = parseConfigToJoda(config)
     const weekHeaders = getWeekHeaders(conf.displayDate)
     const monthDisplay = populateMonthDisplay(conf)
-    console.log('monthDisplay: ', monthDisplay)
-
-    return { weekHeaders, monthDisplay }
+    return { weekHeaders, monthDisplay, config: parseConfigToText(conf) }
 }
+
+export const getCurrentlyDisplayedMonth = (config = {}) => getDisplayDate(parseConfigToJoda(config)).month().toString()
+
+export const stepForward = (config) => getModelByDate({
+    ...config,
+    displayDate: LocalDate.parse(config.displayDate).plusMonths(1).toString()
+})
+
+export const stepBackward = (config) => getModelByDate({
+    ...config,
+    displayDate: LocalDate.parse(config.displayDate).minusMonths(1).toString()
+})

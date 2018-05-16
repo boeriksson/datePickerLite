@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import classnames from 'classnames'
 
-import { getModelByDate } from './model'
+import { getModelByDate, getCurrentlyDisplayedMonth, stepForward, stepBackward } from './model'
 
 const baseStyles = (props) => props.theme.skins.Base.Container(props)
 const StyledBase = styled.div`${baseStyles}`
@@ -19,26 +19,31 @@ const StyledHeader = styled.div`${headerStyles}`
 class Base extends Component {
     constructor(props) {
         super(props)
-        console.log('base.. %o', this);
-        this.model = getModelByDate({
+        this.conf = {
             displayDate: props.displayDate,
             selectedStartDate: props.startDate,
             selectedEndDate: props.endDate,
             allowedStartDate: props.allowedStartDate,
             allowedEndDate: props.allowedEndDate
-        })
+        }
+        this.state = {
+            model: getModelByDate(this.conf)
+        }
     }
 
     componentDidMount() {
         this.props.callback({
-            currentlyDisplayedMonth: '2018:05',
-            stepForward: () => { console.log('stepForward') },
-            stepBackward: () => { console.log('stepBackward') }
+            currentlyDisplayedMonth: () => {
+                console.log('this.state.model.config', this.state.model.config);
+                return getCurrentlyDisplayedMonth(this.state.model.config)
+            },
+            stepForward: () => this.setState({ model: stepForward(this.state.model.config) }),
+            stepBackward: () => this.setState({ model: stepBackward(this.state.model.config) })
         })
     }
 
     displayModel() {
-        const { weekHeaders, monthDisplay } = this.model
+        const { weekHeaders, monthDisplay } = this.state.model
         const headers = (<StyledHeader>
             { weekHeaders.map((header, ix) => <div key={ ix }>{header}</div>) }
         </StyledHeader>)
@@ -55,7 +60,6 @@ class Base extends Component {
     }
 
     render() {
-        const { startDate, endDate } = this.props;
         return (
             <StyledBase>
                 { this.displayModel() }
