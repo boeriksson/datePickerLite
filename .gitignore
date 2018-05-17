@@ -13,6 +13,9 @@
 .npm
 npm-debug.log*
 
+# Jest
+test/jest/tmp/**
+
 # Webpack generated
 **/lib/*
 **/dist/*

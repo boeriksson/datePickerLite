@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import classnames from 'classnames'
 
-import { getModelByDate, getCurrentlyDisplayedMonth, stepForward, stepBackward } from './model'
+import { getModelByDate, stepForward, stepBackward, getCurrentlyDisplayedMonth } from './model'
 
 const baseStyles = (props) => props.theme.skins.Base.Container(props)
 const StyledBase = styled.div`${baseStyles}`
@@ -29,16 +29,29 @@ class Base extends Component {
         this.state = {
             model: getModelByDate(this.conf)
         }
+        this.onChange(this.state.model)
+    }
+
+    onChange = ({ config }) => {
+        this.props.onChange({
+            month: getCurrentlyDisplayedMonth(config),
+            selectedStartDate: config.selectedStartDate,
+            selectedEndDate: config.selectedEndDate
+        })
     }
 
     componentDidMount() {
         this.props.callback({
-            currentlyDisplayedMonth: () => {
-                console.log('this.state.model.config', this.state.model.config);
-                return getCurrentlyDisplayedMonth(this.state.model.config)
+            stepForward: () => {
+                const model = stepForward(this.state.model.config)
+                this.onChange(model)
+                this.setState({ model })
             },
-            stepForward: () => this.setState({ model: stepForward(this.state.model.config) }),
-            stepBackward: () => this.setState({ model: stepBackward(this.state.model.config) })
+            stepBackward: () => {
+                const model = stepBackward(this.state.model.config)
+                this.onChange(model)
+                this.setState({ model })
+            }
         })
     }
 
@@ -74,7 +87,7 @@ Base.propTypes = {
     endDate: PropTypes.string,
     allowedStartDate: PropTypes.string,
     allowedEndDate: PropTypes.string,
-    onDatesChange: PropTypes.func,
+    onChange: PropTypes.func,
     callback: PropTypes.func
 }
 

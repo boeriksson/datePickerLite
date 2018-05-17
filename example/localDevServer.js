@@ -8,9 +8,6 @@ const startDate = '2018-05-11'
 const endDate = '2018-05-16'
 const allowedStartDate = '2018-05-04'
 const allowedEndDate = '2018-05-22'
-const onDatesChange = ({ startDate, endDate }) => {
-    console.log('onDatesChange startDate: %o, endDate: %o', startDate, endDate);
-}
 
 const headerStyle = {
     display: 'flex',
@@ -26,30 +23,24 @@ class DatePickerLiteDemo extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            currentlyDisplayedMonth: () => {}
         }
     }
     callback = ({
-        currentlyDisplayedMonth,
         stepForward,
         stepBackward
     }) => {
         this.setState({
-            currentlyDisplayedMonth,
             stepForward,
-            stepBackward,
-            month: currentlyDisplayedMonth()
+            stepBackward
         })
     }
 
-    stepBackward = (e) => {
-        this.state.stepBackward()
-        this.setState({ month: this.state.currentlyDisplayedMonth() })
+    onChange = ({ month, selectedStartDate, selectedEndDate }) => {
+        this.setState({ month })
     }
-    stepForward = (e) => {
-        this.state.stepForward()
-        this.setState({ month: this.state.currentlyDisplayedMonth() })
-    }
+
+    stepBackward = (e) => this.state.stepBackward()
+    stepForward = (e) => this.state.stepForward()
 
     render() {
         return (
@@ -64,7 +55,7 @@ class DatePickerLiteDemo extends Component {
                     endDate={endDate}
                     allowedStartDate={allowedStartDate}
                     allowedEndDate={allowedEndDate}
-                    onDatesChange={onDatesChange}
+                    onChange={ this.onChange}
                     callback={ this.callback}
                     theme={themeOverride}
                 />
