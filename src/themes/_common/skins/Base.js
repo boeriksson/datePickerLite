@@ -28,6 +28,7 @@ export const Row = {
 
 export const Day = {
     getDefaultStyle: (theme) => css`
+      position: relative;
       display: table-cell;
       width: 39px;
       height: 38px;
@@ -36,12 +37,24 @@ export const Day = {
       box-sizing: border-box;
       color: #222222;
       
-      &:hover:not(.unselectable) {
-          background-color: #e8e8e8;
+      &:hover:not(.unselectable):after {
+        content: " ";
+        z-index: 10;
+        display: block;
+        position: absolute;
+        height: 100%;
+        top: 0;
+        left: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.2);
       }
       
       &.unselectable {
         color: #bbbbbb;
+      }
+      
+      &:not(.unselectable) {
+        cursor: pointer;
       }
       
       &:not(.inMonth) {

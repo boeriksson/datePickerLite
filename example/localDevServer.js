@@ -47,12 +47,12 @@ class DatePickerLiteDemo extends Component {
             <div>
                 <div style={ headerStyle }>
                     <span onClick={ this.stepBackward } style={ buttonStyle }>&lt;</span>
-                    <span>Month: { this.state.month }</span>
+                    <span>{ this.state.month }</span>
                     <span onClick={ this.stepForward } style={ buttonStyle }>&gt;</span>
                 </div>
                 <DatePickerLite
-                    startDate={startDate}
-                    endDate={endDate}
+                    selectedStartDate={startDate}
+                    selectedEndDate={endDate}
                     allowedStartDate={allowedStartDate}
                     allowedEndDate={allowedEndDate}
                     onChange={ this.onChange}

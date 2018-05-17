@@ -21,8 +21,8 @@ class Base extends Component {
         super(props)
         this.conf = {
             displayDate: props.displayDate,
-            selectedStartDate: props.startDate,
-            selectedEndDate: props.endDate,
+            selectedStartDate: props.selectedStartDate,
+            selectedEndDate: props.selectedEndDate,
             allowedStartDate: props.allowedStartDate,
             allowedEndDate: props.allowedEndDate
         }
@@ -83,8 +83,8 @@ class Base extends Component {
 
 Base.propTypes = {
     displayDate: PropTypes.string,
-    startDate: PropTypes.string,
-    endDate: PropTypes.string,
+    selectedStartDate: PropTypes.string,
+    selectedEndDate: PropTypes.string,
     allowedStartDate: PropTypes.string,
     allowedEndDate: PropTypes.string,
     onChange: PropTypes.func,
