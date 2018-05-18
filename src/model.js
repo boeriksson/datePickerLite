@@ -12,8 +12,14 @@ const parseWeekFromAnyDay = (day => parseWeekFromDay1(firstWeekDay(day)))
 
 const getWeekHeaders = day => parseWeekFromAnyDay(day)((date) => date.dayOfWeek().toString().toLowerCase().substr(0, 2))
 
-export const isWithinRange = (date, startDate, endDate) => startDate && endDate
-    && (date.isAfter(startDate) || date.isEqual(startDate)) && (date.isBefore(endDate) || date.isEqual(endDate))
+export const isWithinRange = (date, selectedStartDate, selectedEndDate) =>
+    (selectedStartDate && selectedEndDate
+    && (date.isAfter(selectedStartDate) || date.isEqual(selectedStartDate))
+    && (date.isBefore(selectedEndDate) || date.isEqual(selectedEndDate)))
+    || (selectedStartDate && date.isEqual(selectedStartDate))
+
+//export const isWithinRange = (date, startDate, endDate) => startDate && endDate
+//    && (date.isAfter(startDate) || date.isEqual(startDate)) && (date.isBefore(endDate) || date.isEqual(endDate))
 
 export const isSelectable = (date, { allowedStartDate, allowedEndDate}) => (!allowedStartDate
     || (date.isEqual(allowedStartDate) || date.isAfter(allowedStartDate)))
@@ -27,12 +33,13 @@ export const populateMonthDisplay = (conf, monthNo = conf.displayDate.month().va
     if (firstWeekDayMonth === monthNo || firstWeekDayMonth === getPreviousMonth(monthNo)) {
         return [
             parseWeekFromAnyDay(conf.displayDate)((date) => ({
+                date: date.toString(),
                 dayNo: date.dayOfMonth(),
                 inMonth: date.month().value() === monthNo,
                 unselectable: !isSelectable(date, conf),
                 selected: isWithinRange(date, conf.selectedStartDate, conf.selectedEndDate),
-                selectedEdge: conf.selectedStartDate && conf.selectedEndDate
-                    && (date.isEqual(conf.selectedStartDate) || date.isEqual(conf.selectedEndDate))
+                selectedEdge: (conf.selectedStartDate && date.isEqual(conf.selectedStartDate))
+                    || (conf.selectedEndDate && date.isEqual(conf.selectedEndDate))
             })),
             ...populateMonthDisplay({
                 ...conf,
@@ -92,3 +99,31 @@ export const stepBackward = (config) => getModelByDate({
     ...config,
     displayDate: LocalDate.parse(config.displayDate).minusMonths(1).toString()
 })
+
+export const dayClicked = (day, config) => {
+    let conf = parseConfigToJoda(config)
+    let { selectedStartDate, selectedEndDate, displayDate } = conf
+    const date = LocalDate.parse(day.date)
+
+    if (!selectedStartDate) {
+        selectedStartDate = date
+    } else if (selectedStartDate && !selectedEndDate && date.isBefore(selectedStartDate)) {
+        selectedEndDate = selectedStartDate
+        selectedStartDate = date
+    } else if (selectedStartDate && !selectedEndDate && date.isAfter(selectedStartDate)) {
+        selectedEndDate = date
+    } else if (selectedStartDate && selectedEndDate && date.isBefore(selectedStartDate)) {
+        selectedStartDate = date
+    } else if (selectedStartDate && selectedEndDate && date.isAfter(selectedEndDate)) {
+        selectedEndDate = date
+    } else if (selectedStartDate && selectedEndDate
+        && date.isAfter(selectedStartDate) && date.isBefore(selectedEndDate)) {
+        selectedStartDate = undefined
+        selectedEndDate = undefined
+    }
+    conf = { ...conf, selectedStartDate, selectedEndDate }
+    const weekHeaders = getWeekHeaders(displayDate)
+    const monthDisplay = populateMonthDisplay(conf)
+
+    return { weekHeaders, monthDisplay, config: parseConfigToText(conf) }
+}

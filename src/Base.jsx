@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import classnames from 'classnames'
 
-import { getModelByDate, stepForward, stepBackward, getCurrentlyDisplayedMonth } from './model'
+import { getModelByDate, stepForward, stepBackward, getCurrentlyDisplayedMonth, dayClicked } from './model'
 
 const baseStyles = (props) => props.theme.skins.Base.Container(props)
 const StyledBase = styled.div`${baseStyles}`
@@ -40,6 +40,14 @@ class Base extends Component {
         })
     }
 
+    clickHandler = (day) => {
+        if (day.inMonth && !day.unselectable) {
+            const model = dayClicked(day, this.state.model.config)
+            this.setState({ model })
+            this.onChange(model)
+        }
+    }
+
     componentDidMount() {
         this.props.callback({
             stepForward: () => {
@@ -62,7 +70,12 @@ class Base extends Component {
         </StyledHeader>)
         const month = monthDisplay.map((week, ix) =>
             <StyledRow key={ ix }>{ week.map((day, ix) =>
-                <StyledDay key={ix} className={ classnames(day) }>{day.dayNo}</StyledDay>
+                <StyledDay
+                    key={ix}
+                    className={ classnames(day) }
+                    onClick={ e => this.clickHandler(day) }>
+                        {day.dayNo}
+                </StyledDay>
             )}</StyledRow>)
         return (
             <StyledGrid>

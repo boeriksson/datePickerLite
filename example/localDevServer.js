@@ -55,8 +55,8 @@ class DatePickerLiteDemo extends Component {
                     selectedEndDate={endDate}
                     allowedStartDate={allowedStartDate}
                     allowedEndDate={allowedEndDate}
-                    onChange={ this.onChange}
-                    callback={ this.callback}
+                    onChange={ this.onChange }
+                    callback={ this.callback }
                     theme={themeOverride}
                 />
             </div>
