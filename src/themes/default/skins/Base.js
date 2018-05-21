@@ -1,7 +1,7 @@
 import {css} from 'styled-components';
 
 export const Container = ({ theme }) => css`
-    ${theme.skins.Base.Container.getDefaultStyle(theme)} 
+  ${theme.skins.Base.Container.getDefaultStyle(theme)} 
 `
 
 export const Grid = ({ theme }) => css`

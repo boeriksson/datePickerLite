@@ -62,14 +62,14 @@ export const Day = {
       }
       
       &.selected {
-        border: 1px solid #70e1a0;
-        background-color: #e7fce9;
+        border: 1px solid #d8d8d8;
+        background-color: #f5f5f5;
       }
       
       &.selectedEdge {
         color: white;
-        border: 1px solid #147b45;
-        background-color: #147b45;
+        border: 1px solid #555555;
+        background-color: #777777;
       }
     `
 }

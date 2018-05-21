@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 
 import DatePickerLite from '../src/DatePickerLite' //Modify this to 'datePickerLite/DatePickerLite'
-import themeOverride from './themeOverride'
+import themeOverride from './greenTheme'
 
 const startDate = '2018-05-11'
 const endDate = '2018-05-16'

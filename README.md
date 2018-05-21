@@ -55,6 +55,8 @@ Defines a callback function returning some utillity functions:
 *stepBackward()* - invoking this steps one month backwards
 
 **theme**
-This parameter takes a theme that will be merged with (and override) DatePickerLite's default theme. Easiest way to get a grasp of how to do this is to look at *localDevServer.js* in the example folder, where a "themeOverride" is imported and supplied to the component.
+This parameter takes a "theme" that will be merged with (and override) DatePickerLite's default theme. Easiest way to get a grasp of how to do this is to look at *localDevServer.js* in the example folder, where a "blueTheme" is imported and supplied to the component.
 
+Without theme attribute:
+![default theme](https://github.com/boeriksson/datePickerLite/img/defaultTheme.PNG)
 
