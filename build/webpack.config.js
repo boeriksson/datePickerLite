@@ -19,7 +19,8 @@ module.exports = {
                     presets: [['env', { 'modules': false }], 'react', 'stage-0']
                 },
                 loader: 'babel-loader'
-            }
+            },
+            {test: /\.svg$/, loader: 'url-loader?mimetype=image/svg+xml'}
         ]
     },
     resolve: {
