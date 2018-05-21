@@ -19,7 +19,6 @@ Usage:
    onChange={ function({ month, selectedStartDate, selectedEndDate }) }
    callback={ function() // function that will be called on componentDidMount() and return the following object:
         {
-            currentlyDisplayedMonth, //String: 'YYYY:MM'
             stepForward, //function - change display to one month forward
             stepBackward, //function - backwards
         }
@@ -57,6 +56,11 @@ Defines a callback function returning some utillity functions:
 **theme**
 This parameter takes a "theme" that will be merged with (and override) DatePickerLite's default theme. Easiest way to get a grasp of how to do this is to look at *localDevServer.js* in the example folder, where a "blueTheme" is imported and supplied to the component.
 
-Without theme attribute:
+Without theme attribute: <br>
 ![default theme](https://github.com/boeriksson/datePickerLite/blob/master/img/defaultTheme.PNG)
 
+With the "blueTheme" resp "greenTheme" imported in the example/localDevServer.js: <br>
+![default theme](https://github.com/boeriksson/datePickerLite/blob/master/img/blueTheme.PNG)
+![default theme](https://github.com/boeriksson/datePickerLite/blob/master/img/greenTheme.PNG)
+
+The whole component consists of divs with display:table and can be overridden by copying an example theme and applying styles. Base styles to change/override are found in /src/themes/_common/skins/Base.js.
