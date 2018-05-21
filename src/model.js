@@ -117,7 +117,8 @@ export const dayClicked = (day, config) => {
     } else if (selectedStartDate && selectedEndDate && date.isAfter(selectedEndDate)) {
         selectedEndDate = date
     } else if (selectedStartDate && selectedEndDate
-        && date.isAfter(selectedStartDate) && date.isBefore(selectedEndDate)) {
+        && (date.isAfter(selectedStartDate) || date.isEqual(selectedStartDate))
+        && (date.isBefore(selectedEndDate) || date.isEqual(selectedEndDate))) {
         selectedStartDate = undefined
         selectedEndDate = undefined
     }
