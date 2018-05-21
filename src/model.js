@@ -18,9 +18,6 @@ export const isWithinRange = (date, selectedStartDate, selectedEndDate) =>
     && (date.isBefore(selectedEndDate) || date.isEqual(selectedEndDate)))
     || (selectedStartDate && date.isEqual(selectedStartDate))
 
-//export const isWithinRange = (date, startDate, endDate) => startDate && endDate
-//    && (date.isAfter(startDate) || date.isEqual(startDate)) && (date.isBefore(endDate) || date.isEqual(endDate))
-
 export const isSelectable = (date, { allowedStartDate, allowedEndDate}) => (!allowedStartDate
     || (date.isEqual(allowedStartDate) || date.isAfter(allowedStartDate)))
     && (!allowedEndDate
@@ -32,15 +29,18 @@ export const populateMonthDisplay = (conf, monthNo = conf.displayDate.month().va
     const firstWeekDayMonth = firstWeekDay(conf.displayDate).month().value();
     if (firstWeekDayMonth === monthNo || firstWeekDayMonth === getPreviousMonth(monthNo)) {
         return [
-            parseWeekFromAnyDay(conf.displayDate)((date) => ({
-                date: date.toString(),
-                dayNo: date.dayOfMonth(),
-                inMonth: date.month().value() === monthNo,
-                unselectable: !isSelectable(date, conf),
-                selected: isWithinRange(date, conf.selectedStartDate, conf.selectedEndDate),
-                selectedEdge: (conf.selectedStartDate && date.isEqual(conf.selectedStartDate))
-                    || (conf.selectedEndDate && date.isEqual(conf.selectedEndDate))
-            })),
+            parseWeekFromAnyDay(conf.displayDate)((date) => {
+                const inMonth = date.month().value() === monthNo
+                return {
+                    date: date.toString(),
+                        dayNo: date.dayOfMonth(),
+                    inMonth,
+                    unselectable: !isSelectable(date, conf),
+                    selected: inMonth && isWithinRange(date, conf.selectedStartDate, conf.selectedEndDate),
+                    selectedEdge: inMonth && ((conf.selectedStartDate && date.isEqual(conf.selectedStartDate))
+                    || (conf.selectedEndDate && date.isEqual(conf.selectedEndDate)))
+                }
+            }),
             ...populateMonthDisplay({
                 ...conf,
                 displayDate: conf.displayDate.plusDays(7),
