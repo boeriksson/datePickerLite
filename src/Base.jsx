@@ -24,7 +24,8 @@ class Base extends Component {
             selectedStartDate: props.selectedStartDate,
             selectedEndDate: props.selectedEndDate,
             allowedStartDate: props.allowedStartDate,
-            allowedEndDate: props.allowedEndDate
+            allowedEndDate: props.allowedEndDate,
+            weekdays: props.weekdays
         }
         this.state = {
             model: getModelByDate(this.conf)
@@ -101,7 +102,16 @@ Base.propTypes = {
     allowedStartDate: PropTypes.string,
     allowedEndDate: PropTypes.string,
     onChange: PropTypes.func,
-    callback: PropTypes.func
+    callback: PropTypes.func,
+    weekdays: PropTypes.shape({
+        MONDAY: PropTypes.string.isRequired,
+        TUESDAY: ProTypes.string.isRequired,
+        WEDNESDAY: ProTypes.string.isRequired,
+        THURSDAY: ProTypes.string.isRequired,
+        FRIDAY: ProTypes.string.isRequired,
+        SATURDAY: ProTypes.string.isRequired,
+        SUNDAY: ProTypes.string.isRequired
+    })
 }
 
 export default Base

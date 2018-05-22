@@ -19,6 +19,16 @@ const buttonStyle = {
     cursor: 'pointer'
 }
 
+const weekdays = {
+    MONDAY: 'MÅNDAG',
+    TUESDAY: 'TISDAG',
+    WEDNESDAY: 'ONSDAG',
+    THURSDAY: 'TORSDAG',
+    FRIDAY: 'FREDAG',
+    SATURDAY: 'LÖRDAG',
+    SUNDAY: 'SÖNDAG'
+}
+
 class DatePickerLiteDemo extends Component {
     constructor(props) {
         super(props)
@@ -58,6 +68,7 @@ class DatePickerLiteDemo extends Component {
                     onChange={ this.onChange }
                     callback={ this.callback }
                     theme={themeOverride}
+                    weekdays={weekdays}
                 />
             </div>
         )

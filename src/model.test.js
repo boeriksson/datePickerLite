@@ -6,7 +6,8 @@ import {
     isWithinRange,
     parseWeekFromDay1,
     populateMonthDisplay,
-    dayClicked
+    dayClicked,
+    getLocalizedWeekday
 } from './model'
 
 
@@ -23,6 +24,25 @@ describe('#parseWeekFromDay1', () => {
         const expectedResult = ['MONDAY','TUESDAY','WEDNESDAY','THURSDAY','FRIDAY','SATURDAY','SUNDAY']
         const result = parseWeekFromDay1(startDate)((date) => date.dayOfWeek().toString())
         expect(result).toEqual(expectedResult)
+    })
+})
+
+describe('#getLocalizedWeekday', () => {
+    const weekdays = {
+        MONDAY: 'MÅNDAG',
+        TUESDAY: 'TISDAG',
+        WEDNESDAY: 'ONSDAG',
+        THURSDAY: 'TORSDAG',
+        FRIDAY: 'FREDAG',
+        SATURDAY: 'LÖRDAG',
+        SUNDAY: 'SÖNDAG'
+    }
+    test('should return correct localized weekday', () => {
+        expect(getLocalizedWeekday('SATURDAY', weekdays)).toBe('LÖRDAG')
+    })
+
+    test('should return default day if no "weekdays" is supplied', () => {
+        expect(getLocalizedWeekday('SATURDAY', undefined))
     })
 })
 
