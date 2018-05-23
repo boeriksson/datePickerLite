@@ -105,12 +105,12 @@ Base.propTypes = {
     callback: PropTypes.func,
     weekdays: PropTypes.shape({
         MONDAY: PropTypes.string.isRequired,
-        TUESDAY: ProTypes.string.isRequired,
-        WEDNESDAY: ProTypes.string.isRequired,
-        THURSDAY: ProTypes.string.isRequired,
-        FRIDAY: ProTypes.string.isRequired,
-        SATURDAY: ProTypes.string.isRequired,
-        SUNDAY: ProTypes.string.isRequired
+        TUESDAY: PropTypes.string.isRequired,
+        WEDNESDAY: PropTypes.string.isRequired,
+        THURSDAY: PropTypes.string.isRequired,
+        FRIDAY: PropTypes.string.isRequired,
+        SATURDAY: PropTypes.string.isRequired,
+        SUNDAY: PropTypes.string.isRequired
     })
 }
 
