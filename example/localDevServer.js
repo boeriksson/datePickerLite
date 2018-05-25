@@ -20,13 +20,13 @@ const buttonStyle = {
 }
 
 const weekdays = {
-    MONDAY: 'MÅNDAG',
-    TUESDAY: 'TISDAG',
-    WEDNESDAY: 'ONSDAG',
-    THURSDAY: 'TORSDAG',
-    FRIDAY: 'FREDAG',
-    SATURDAY: 'LÖRDAG',
-    SUNDAY: 'SÖNDAG'
+    MONDAY: 'M',
+    TUESDAY: 'T',
+    WEDNESDAY: 'O',
+    THURSDAY: 'T',
+    FRIDAY: 'F',
+    SATURDAY: 'L',
+    SUNDAY: 'S'
 }
 
 class DatePickerLiteDemo extends Component {

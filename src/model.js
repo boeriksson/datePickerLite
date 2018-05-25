@@ -11,10 +11,10 @@ export const firstWeekDay = (day) => day.minusDays(day.dayOfWeek().value() - 1)
 const parseWeekFromAnyDay = (day => parseWeekFromDay1(firstWeekDay(day)))
 
 export const getLocalizedWeekday = (day, weekdays) => weekdays && weekdays.hasOwnProperty(day)
-    ? weekdays[day] : day
+    ? weekdays[day] : day.toLowerCase().substr(0, 2)
 
 const getWeekHeaders = (day, weekdays) => parseWeekFromAnyDay(day)((date) =>
-    getLocalizedWeekday(date.dayOfWeek().toString(), weekdays).toLowerCase().substr(0, 2))
+    getLocalizedWeekday(date.dayOfWeek().toString(), weekdays))
 
 export const isWithinRange = (date, selectedStartDate, selectedEndDate) =>
     (selectedStartDate && selectedEndDate
@@ -101,7 +101,7 @@ export const getModelByDate = (config = {}) => {
     return {weekHeaders, monthDisplay, config: parseConfigToText(conf)}
 }
 
-export const getCurrentlyDisplayedMonth = (config = {}) => getDisplayDate(parseConfigToJoda(config)).month().toString()
+export const getCurrentlyDisplayedMonth = (config = {}) => getDisplayDate(parseConfigToJoda(config)).toString()
 
 export const stepForward = (config) => getModelByDate({
     ...config,
