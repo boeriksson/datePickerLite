@@ -136,7 +136,7 @@ export const dayClicked = (day, config) => {
         selectedEndDate = undefined
     }
     conf = {...conf, selectedStartDate, selectedEndDate}
-    const weekHeaders = getWeekHeaders(displayDate)
+    const weekHeaders = getWeekHeaders(displayDate, conf.weekdays)
     const monthDisplay = populateMonthDisplay(conf)
 
     return {weekHeaders, monthDisplay, config: parseConfigToText(conf)}
