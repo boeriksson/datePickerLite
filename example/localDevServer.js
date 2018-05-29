@@ -67,7 +67,6 @@ class DatePickerLiteDemo extends Component {
                     allowedEndDate={allowedEndDate}
                     onChange={ this.onChange }
                     callback={ this.callback }
-                    theme={themeOverride}
                     weekdays={weekdays}
                 />
             </div>
