@@ -1,19 +1,19 @@
 import {css} from 'styled-components';
 
 export const Container = ({ theme }) => css`
-  ${theme.skins.Base.Container.getDefaultStyle(theme)} 
+  ${theme.skins.DatepickerLite.Container.getDefaultStyle(theme)} 
 `
 
 export const Grid = ({ theme }) => css`
-  ${theme.skins.Base.Grid.getDefaultStyle(theme)}
+  ${theme.skins.DatepickerLite.Grid.getDefaultStyle(theme)}
 `
 
 export const Row = ({ theme }) => css`
-  ${theme.skins.Base.Row.getDefaultStyle(theme)}
+  ${theme.skins.DatepickerLite.Row.getDefaultStyle(theme)}
 `
 
 export const Day = ({ theme }) => css`
-  ${theme.skins.Base.Day.getDefaultStyle(theme)}
+  ${theme.skins.DatepickerLite.Day.getDefaultStyle(theme)}
       &.selected {
         border: 1px solid #70e1a0;
         background-color: #e7fce9;
@@ -27,5 +27,5 @@ export const Day = ({ theme }) => css`
 `
 
 export const Header = ({ theme }) => css`
-  ${theme.skins.Base.Header.getDefaultStyle(theme)}
+  ${theme.skins.DatepickerLite.Header.getDefaultStyle(theme)}
 `

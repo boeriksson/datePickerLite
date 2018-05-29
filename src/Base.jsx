@@ -5,15 +5,15 @@ import classnames from 'classnames'
 
 import { getModelByDate, stepForward, stepBackward, getCurrentlyDisplayedMonth, dayClicked } from './model'
 
-const baseStyles = (props) => props.theme.skins.Base.Container(props)
+const baseStyles = (props) => props.theme.skins.DatepickerLite.Container(props)
 const StyledBase = styled.div`${baseStyles}`
-const gridStyles = (props) => props.theme.skins.Base.Grid(props)
+const gridStyles = (props) => props.theme.skins.DatepickerLite.Grid(props)
 const StyledGrid = styled.div`${gridStyles}`
-const rowStyles = (props) => props.theme.skins.Base.Row(props)
+const rowStyles = (props) => props.theme.skins.DatepickerLite.Row(props)
 const StyledRow = styled.div`${rowStyles}`
-const dayStyles = (props) => props.theme.skins.Base.Day(props)
+const dayStyles = (props) => props.theme.skins.DatepickerLite.Day(props)
 const StyledDay = styled.div`${dayStyles}`
-const headerStyles = (props) => props.theme.skins.Base.Header(props)
+const headerStyles = (props) => props.theme.skins.DatepickerLite.Header(props)
 const StyledHeader = styled.div`${headerStyles}`
 
 class Base extends Component {

@@ -1,5 +1,5 @@
-import * as Base from './Base'
+import * as DatepickerLite from './DatepickerLite'
 
 export default {
-    Base
+    DatepickerLite
 }
