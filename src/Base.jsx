@@ -3,7 +3,14 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import classnames from 'classnames'
 
-import { getModelByDate, stepForward, stepBackward, getCurrentlyDisplayedMonth, dayClicked } from './model'
+import {
+    getModelByDate,
+    stepForward,
+    stepBackward,
+    goToNow,
+    getCurrentlyDisplayedMonth,
+    dayClicked
+} from './model'
 
 const baseStyles = (props) => props.theme.skins.DatepickerLite.Container(props)
 const StyledBase = styled.div`${baseStyles}`
@@ -50,17 +57,15 @@ class Base extends Component {
     }
 
     componentDidMount() {
+        const doAction = (f) => {
+            const model = f(this.state.model.config)
+            this.onChange(model)
+            this.setState({ model })
+        }
         this.props.callback({
-            stepForward: () => {
-                const model = stepForward(this.state.model.config)
-                this.onChange(model)
-                this.setState({ model })
-            },
-            stepBackward: () => {
-                const model = stepBackward(this.state.model.config)
-                this.onChange(model)
-                this.setState({ model })
-            }
+            stepForward: () => doAction(stepForward),
+            stepBackward: () => doAction(stepBackward),
+            goToNow: () => doAction(goToNow)
         })
     }
 

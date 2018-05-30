@@ -113,6 +113,11 @@ export const stepBackward = (config) => getModelByDate({
     displayDate: LocalDate.parse(config.displayDate).minusMonths(1).toString()
 })
 
+export const goToNow = (config) => getModelByDate({
+    ...config,
+    displayDate: LocalDate.now().toString()
+})
+
 export const dayClicked = (day, config) => {
     let conf = parseConfigToJoda(config)
     let {selectedStartDate, selectedEndDate, displayDate} = conf
