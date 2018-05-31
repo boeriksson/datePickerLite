@@ -1,5 +1,7 @@
 const path = require('path');
 const webpack = require('webpack')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 module.exports = {
     entry: [path.join(__dirname, '../example/localdevServer.js')],
@@ -29,6 +31,18 @@ module.exports = {
             'node_modules',
             './src'
         ]
-    }
+    },
+    plugins: [
+        new UglifyJsPlugin({
+            uglifyOptions: {
+                compress: {
+                    drop_console: true
+                },
+                dead_code: true
+            }
+        }),
+        new BundleAnalyzerPlugin()
+    ]
+
 }
 
