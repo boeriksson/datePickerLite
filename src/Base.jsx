@@ -10,7 +10,7 @@ import {
     goToNow,
     getCurrentlyDisplayedMonth,
     dayClicked
-} from './modelJoda'
+} from './modelFns'
 
 const baseStyles = (props) => props.theme.skins.DatepickerLite.Container(props)
 const StyledBase = styled.div`${baseStyles}`
@@ -37,6 +37,7 @@ class Base extends Component {
         this.state = {
             model: getModelByDate(this.conf)
         }
+        console.log('model: ', this.state.model);
         this.onChange(this.state.model)
     }
 

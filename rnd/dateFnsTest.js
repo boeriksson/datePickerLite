@@ -2,7 +2,7 @@ const fns = require('date-fns')
 
 const d1 = new Date(2018, 5, 4)
 const d2 = new Date(2018, 4, 20)
-console.log('d1: %s, d2: %s ', fns.format(d1), fns.format(d2));
+console.log('d1: %s, d2: %s ', fns.format(d1, 'YYYY-MM-DD'), fns.format(d2));
 
 console.log('sub 5: ', fns.subDays(d1, 5))
 console.log('plus 5: ', fns.addDays(d1, 5))
@@ -20,3 +20,5 @@ console.log('d3 first day of month', fns.startOfMonth(d3));
 
 const d4 = '2018-07-03'
 console.log('dayofmonth: ', fns.getDate(d4));
+
+console.log('format date: ', fns.format(new Date('2018-06-04')));

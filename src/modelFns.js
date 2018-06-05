@@ -1,16 +1,30 @@
-import { format, getDate, getMonth, isEqual, isAfter, isBefore, startOfMonth, addDays } from 'date-fns'
+import {
+    format,
+    getDate,
+    getDay,
+    getMonth,
+    isEqual,
+    isAfter,
+    isBefore,
+    startOfMonth,
+    addDays,
+    subDays,
+    differenceInDays,
+    addMonths,
+    subMonths
+} from 'date-fns'
 
 export const parseWeekFromDay1 = (startDate, dayNo = 0) => f => {
     if (dayNo < 7) {
-        return [f(startDate.plusDays(dayNo)), ...(parseWeekFromDay1(startDate, dayNo + 1)(f) || [])]
+        return [f(addDays(startDate, dayNo)), ...(parseWeekFromDay1(startDate, dayNo + 1)(f) || [])]
     }
 }
 
-export const firstWeekDay = (day) => day.minusDays(day.dayOfWeek().value() - 1)
+export const firstWeekDay = (day) => subDays(new Date(day), getDay(new Date(day)) - 1)
 
 const parseWeekFromAnyDay = (day => parseWeekFromDay1(firstWeekDay(day)))
 
-const getWeekHeaders = (weekdays) => weekdays ? weekdays.values() : [ 'mo', 'tu', 'we', 'th', 'fr', 'sa', 'su']
+export const getWeekHeaders = (weekdays) => weekdays ? Object.values(weekdays) : [ 'mo', 'tu', 'we', 'th', 'fr', 'sa', 'su']
 
 export const isWithinRange = (date, selectedStartDate, selectedEndDate) =>
     (selectedStartDate && selectedEndDate
@@ -53,91 +67,62 @@ export const populateMonthDisplay = (conf, monthNo = getMonth(new Date(conf.disp
 
 const getDisplayDate = ({displayDate, selectedStartDate, selectedEndDate}) => {
     if (displayDate) return displayDate
-    const nowDate = LocalDate.now()
+    const nowDate = format(new Date(), 'YYYY-MM-DD')
     if (!selectedStartDate) return nowDate
-    return nowDate.until(selectedStartDate, ChronoUnit.DAYS) < nowDate.until(selectedEndDate, ChronoUnit.DAYS)
+    return differenceInDays(new Date(nowDate), new Date(selectedStartDate))
+        < differenceInDays(new Date(nowDate), new Date(selectedEndDate))
         ? selectedStartDate : selectedEndDate
 }
 
-const getFirstDayOfMonth = (date) => date.minusDays(date.dayOfMonth() - 1)
-
-const parseConfigToJoda = (config) => {
-    const conf = {
-        displayDate: config.displayDate ? LocalDate.parse(config.displayDate) : undefined,
-        selectedStartDate: config.selectedStartDate ? LocalDate.parse(config.selectedStartDate) : undefined,
-        selectedEndDate: config.selectedEndDate ? LocalDate.parse(config.selectedEndDate) : undefined,
-        allowedStartDate: config.allowedStartDate ? LocalDate.parse(config.allowedStartDate) : undefined,
-        allowedEndDate: config.allowedEndDate ? LocalDate.parse(config.allowedEndDate) : undefined,
-        weekdays: config.weekdays
-    }
-    conf.displayDate = getFirstDayOfMonth(getDisplayDate(conf))
-    return conf
-}
-
-const parseConfigToText = ({
-                               displayDate,
-                               selectedStartDate,
-                               selectedEndDate,
-                               allowedStartDate,
-                               allowedEndDate,
-                               weekdays
-                           }) => ({
-    displayDate: displayDate && displayDate.toString(),
-    selectedStartDate: selectedStartDate && selectedStartDate.toString(),
-    selectedEndDate: selectedEndDate && selectedEndDate.toString(),
-    allowedStartDate: allowedStartDate && allowedStartDate.toString(),
-    allowedEndDate: allowedEndDate && allowedEndDate.toString(),
-    weekdays
-})
+export const getFirstDayOfMonth = (date) => format(subDays(date, getDate(date) - 1), 'YYYY-MM-DD')
 
 export const getModelByDate = (config = {}) => {
+    config.displayDate = getFirstDayOfMonth(getDisplayDate(config))
     const weekHeaders = getWeekHeaders(config.weekdays)
     const monthDisplay = populateMonthDisplay(config)
     return {weekHeaders, monthDisplay, config}
 }
 
-export const getCurrentlyDisplayedMonth = (config = {}) => getDisplayDate(parseConfigToJoda(config)).toString()
+export const getCurrentlyDisplayedMonth = (config = {}) => getDisplayDate(config)
 
 export const stepForward = (config) => getModelByDate({
     ...config,
-    displayDate: LocalDate.parse(config.displayDate).plusMonths(1).toString()
+    displayDate: addMonths(new Date(config.displayDate), 1)
 })
 
 export const stepBackward = (config) => getModelByDate({
     ...config,
-    displayDate: LocalDate.parse(config.displayDate).minusMonths(1).toString()
+    displayDate: subMonths(new Date(config.displayDate), 1)
 })
 
 export const goToNow = (config) => getModelByDate({
     ...config,
-    displayDate: LocalDate.now().toString()
+    displayDate: format(new Date(), 'YYYY-MM-DD')
 })
 
 export const dayClicked = (day, config) => {
-    let conf = parseConfigToJoda(config)
-    let {selectedStartDate, selectedEndDate, displayDate} = conf
-    const date = LocalDate.parse(day.date)
+    let {selectedStartDate, selectedEndDate, displayDate} = config
+    const date = day.date
 
     if (!selectedStartDate) {
         selectedStartDate = date
-    } else if (selectedStartDate && !selectedEndDate && date.isBefore(selectedStartDate)) {
+    } else if (selectedStartDate && !selectedEndDate && isBefore(date, selectedStartDate)) {
         selectedEndDate = selectedStartDate
         selectedStartDate = date
-    } else if (selectedStartDate && !selectedEndDate && date.isAfter(selectedStartDate)) {
+    } else if (selectedStartDate && !selectedEndDate && isAfter(date, selectedStartDate)) {
         selectedEndDate = date
-    } else if (selectedStartDate && selectedEndDate && date.isBefore(selectedStartDate)) {
+    } else if (selectedStartDate && selectedEndDate && isBefore(date, selectedStartDate)) {
         selectedStartDate = date
-    } else if (selectedStartDate && selectedEndDate && date.isAfter(selectedEndDate)) {
+    } else if (selectedStartDate && selectedEndDate && isAfter(date, selectedEndDate)) {
         selectedEndDate = date
     } else if (selectedStartDate && selectedEndDate
-        && (date.isAfter(selectedStartDate) || date.isEqual(selectedStartDate))
-        && (date.isBefore(selectedEndDate) || date.isEqual(selectedEndDate))) {
+        && (isAfter(date, selectedStartDate) || isEqual(date, selectedStartDate))
+        && (isBefore(date, selectedEndDate) || isEqual(date, selectedEndDate))) {
         selectedStartDate = undefined
         selectedEndDate = undefined
     }
-    conf = {...conf, selectedStartDate, selectedEndDate}
-    const weekHeaders = getWeekHeaders(displayDate, conf.weekdays)
-    const monthDisplay = populateMonthDisplay(conf)
+    const weekHeaders = getWeekHeaders(displayDate, config.weekdays)
+    const monthDisplay = populateMonthDisplay(config)
 
-    return {weekHeaders, monthDisplay, config: parseConfigToText(conf)}
+    return {weekHeaders, monthDisplay, config: {...config, selectedStartDate, selectedEndDate}}
 }
