@@ -24,7 +24,7 @@ export const firstWeekDay = (day) => subDays(new Date(day), getDay(new Date(day)
 
 const parseWeekFromAnyDay = (day => parseWeekFromDay1(firstWeekDay(day)))
 
-export const getWeekHeaders = (weekdays) => weekdays ? Object.values(weekdays) : [ 'mo', 'tu', 'we', 'th', 'fr', 'sa', 'su']
+export const getWeekHeaders = (weekdays) => weekdays ? Object.values(weekdays) : [ 'mo', 'tu', 'we', 'th','fr', 'sa', 'su']
 
 export const isWithinRange = (date, selectedStartDate, selectedEndDate) =>
     (selectedStartDate && selectedEndDate
@@ -100,9 +100,13 @@ export const goToNow = (config) => getModelByDate({
     displayDate: format(new Date(), 'YYYY-MM-DD')
 })
 
+const dateToString = (date) => date ? format(date, 'YYYY-MM-DD') : date
+
 export const dayClicked = (day, config) => {
-    let {selectedStartDate, selectedEndDate, displayDate} = config
+    let {selectedStartDate, selectedEndDate} = config
     const date = day.date
+
+    console.log('dayClicked day: %o, config: %o', day, config);
 
     if (!selectedStartDate) {
         selectedStartDate = date
@@ -121,8 +125,15 @@ export const dayClicked = (day, config) => {
         selectedStartDate = undefined
         selectedEndDate = undefined
     }
-    const weekHeaders = getWeekHeaders(displayDate, config.weekdays)
-    const monthDisplay = populateMonthDisplay(config)
+    const weekHeaders = getWeekHeaders(config.weekdays)
 
-    return {weekHeaders, monthDisplay, config: {...config, selectedStartDate, selectedEndDate}}
+    console.log('config after: ', config);
+    const monthDisplay = populateMonthDisplay({
+        ...config,
+        selectedStartDate,
+        selectedEndDate
+    })
+
+    return {weekHeaders, monthDisplay, config: {
+        ...config, selectedStartDate: dateToString(selectedStartDate), selectedEndDate: dateToString(selectedEndDate)}}
 }
