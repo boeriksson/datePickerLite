@@ -106,8 +106,6 @@ export const dayClicked = (day, config) => {
     let {selectedStartDate, selectedEndDate} = config
     const date = day.date
 
-    console.log('dayClicked day: %o, config: %o', day, config);
-
     if (!selectedStartDate) {
         selectedStartDate = date
     } else if (selectedStartDate && !selectedEndDate && isBefore(date, selectedStartDate)) {
@@ -126,8 +124,6 @@ export const dayClicked = (day, config) => {
         selectedEndDate = undefined
     }
     const weekHeaders = getWeekHeaders(config.weekdays)
-
-    console.log('config after: ', config);
     const monthDisplay = populateMonthDisplay({
         ...config,
         selectedStartDate,

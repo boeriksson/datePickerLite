@@ -37,7 +37,6 @@ class Base extends Component {
         this.state = {
             model: getModelByDate(this.conf)
         }
-        console.log('initial model: ', this.state.model);
         this.onChange(this.state.model)
     }
 
@@ -52,7 +51,6 @@ class Base extends Component {
     clickHandler = (day) => {
         if (day.inMonth && !day.unselectable) {
             const model = dayClicked(day, this.state.model.config)
-            // console.log('new model: ', model);
             this.setState({ model })
             this.onChange(model)
         }
