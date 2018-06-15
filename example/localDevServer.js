@@ -6,7 +6,7 @@ import themeOverride from './blueTheme'
 
 const startDate = '2018-05-11'
 const endDate = '2018-05-16'
-const allowedStartDate = '2018-05-04'
+const allowedStartDate = '2018-03-04'
 const allowedEndDate = '2018-05-22'
 
 const headerStyle = {
