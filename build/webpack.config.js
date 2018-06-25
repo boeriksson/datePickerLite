@@ -1,10 +1,10 @@
 const path = require('path');
 const webpack = require('webpack')
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 module.exports = {
-    entry: [path.join(__dirname, '../example/localdevServer.js')],
+    entry: [path.join(__dirname, '../example/localDevServer.js')],
     devtool: 'source-map',
     output: {
         path: path.join(__dirname, '../lib'),
@@ -41,8 +41,9 @@ module.exports = {
                 },
                 dead_code: true
             }
-        }),
-        new BundleAnalyzerPlugin()
+        })
+        //,
+        //new BundleAnalyzerPlugin()
     ]
 
 }
