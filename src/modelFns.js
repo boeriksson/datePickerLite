@@ -1,18 +1,17 @@
-import {
-    format,
-    getDate,
-    getDay,
-    getMonth,
-    isEqual,
-    isAfter,
-    isBefore,
-    startOfMonth,
-    addDays,
-    subDays,
-    differenceInDays,
-    addMonths,
-    subMonths
-} from 'date-fns'
+import format from 'date-fns/format'
+import getDate from 'date-fns/get_date'
+import getDay from 'date-fns/get_day'
+import getMonth from 'date-fns/get_month'
+import isEqual from 'date-fns/is_equal'
+import isAfter from 'date-fns/is_after'
+import isBefore from 'date-fns/is_before'
+import startOfMonth from 'date-fns/start_of_month'
+import addDays from 'date-fns/add_days'
+import subDays from 'date-fns/sub_days'
+import differenceInDays from 'date-fns/difference_in_days'
+import addMonths from 'date-fns/add_months'
+import subMonths from 'date-fns/sub_months'
+import isDate from 'date-fns/is_date'
 
 export const parseWeekFromDay1 = (startDate, dayNo = 0) => f => {
     if (dayNo < 7) {
@@ -51,8 +50,9 @@ export const populateMonthDisplay = (conf, monthNo = getMonth(new Date(conf.disp
                     inMonth,
                     unselectable: !isSelectable(date, conf),
                     selected: inMonth && isWithinRange(date, conf.selectedStartDate, conf.selectedEndDate),
-                    selectedEdge: inMonth && ((conf.selectedStartDate && isEqual(date, conf.selectedStartDate))
-                        || (conf.selectedEndDate && isEqual(date, conf.selectedEndDate)))
+                    selectedEdge: inMonth && ((conf.selectedStartDate
+                        && isEqual(dateToString(date), dateToString(conf.selectedStartDate)))
+                        || (conf.selectedEndDate && isEqual(dateToString(date), dateToString(conf.selectedEndDate))))
                 }
             }),
             ...populateMonthDisplay({
@@ -100,7 +100,7 @@ export const goToNow = (config) => getModelByDate({
     displayDate: format(new Date(), 'YYYY-MM-DD')
 })
 
-const dateToString = (date) => date ? format(date, 'YYYY-MM-DD') : date
+const dateToString = (date) => isDate(date) ? format(date, 'YYYY-MM-DD') : date
 
 export const dayClicked = (day, config) => {
     let {selectedStartDate, selectedEndDate} = config

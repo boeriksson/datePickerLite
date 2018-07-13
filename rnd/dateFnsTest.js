@@ -22,3 +22,8 @@ const d4 = '2018-07-03'
 console.log('dayofmonth: ', fns.getDate(d4));
 
 console.log('format date: ', fns.format(new Date('2018-06-04')));
+
+const d5a = '2018-07-03'
+const d5b = new Date(d5a)
+console.log('isDate 2018-07-03: ', fns.isDate(d5a))
+console.log('isDate date: ', fns.isDate(d5b))
