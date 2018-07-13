@@ -2,7 +2,7 @@ DatePickerLite
 ==============
 
 React component that visualize dates which can be picked to create a single date or a daterange.
-Uses https://github.com/js-joda/js-joda as a peer dependency
+Uses https://github.com/js-joda/js-joda OR https://github.com/date-fns/date-fns a peer dependency
 
 The ambition is to create a superslim datepicker-component that is easily stylable for react projects running styled-components.
 It is very barebones and just handles the view of a month, but can easily be extended with controls and styled to fit the application
